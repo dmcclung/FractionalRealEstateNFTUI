@@ -20,7 +20,7 @@ export default function App() {
       <div className="App">
         <AccountNetwork account={account} network={network} />
         <CreateProperty account={account} />
-        <PropertyList account={account} />          
+        <PropertyList account={account} />
       </div>
     )
   } else {

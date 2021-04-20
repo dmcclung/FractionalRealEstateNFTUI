@@ -25,8 +25,15 @@ const getProperties = async () => {
     const nftAddress = await NFTFactory.methods.properties(i).call()
     propertiesAddresses.push(nftAddress)
   }
-  
-  return propertiesAddresses
+
+  const propertyNFTs = await Promise.all(propertiesAddresses.map(async (propertyAddress) =>  {
+    const NFT = new web3.eth.Contract(NFTABI, propertyAddress)
+    const tokenSymbol = await NFT.methods.name().call()
+    const tokenName = await NFT.methods.symbol().call()
+    return { address: propertyAddress, tokenSymbol: tokenSymbol, tokenName: tokenName }
+  }))
+
+  return propertyNFTs
 }
 
 const createProperty = (account, newProperty) => {
